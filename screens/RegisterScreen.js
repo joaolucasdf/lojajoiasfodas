@@ -58,3 +58,4 @@ const styles = StyleSheet.create({
   buttonText: { color: '#000', textAlign: 'center', fontWeight: 'bold', fontSize: 16 },
   link: { color: '#FFD700', textAlign: 'center', marginTop: 12 },
 });
+
