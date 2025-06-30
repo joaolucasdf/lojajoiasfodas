@@ -3,12 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { AuthContext } from '../App';
 
 const LoginScreen = ({ navigation }) => {
-  const { setUser } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    setUser({ email });
+    signIn({ email });
   };
 
   return (
@@ -39,7 +39,7 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.link}>Criar Conta</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => setUser({ anonimo: true })}>
+      <TouchableOpacity onPress={() => signIn({ anonimo: true })}>
         <Text style={styles.link}>Usar como Visitante</Text>
       </TouchableOpacity>
     </View>
