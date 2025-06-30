@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../App';
 
-// Importando as imagens com os nomes exatos fornecidos
 const aneldeouro = require('../assets/aneldeouro.jpg');
 const aneldeprata = require('../assets/aneldeprata.jpg');
 const brincodediamante = require('../assets/brincodediamante.jpg');
@@ -28,7 +28,7 @@ const jewelryData = [
 ];
 
 const HomeScreen = ({ navigation }) => {
-  const { addToCart } = useContext(AuthContext);
+  const { addToCart, signOut } = useContext(AuthContext);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -50,37 +50,111 @@ const HomeScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Catálogo de Joias</Text>
-      <FlatList
-        data={jewelryData}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
-      <TouchableOpacity
-        style={[styles.button, { marginTop: 20 }]}
-        onPress={() => navigation.navigate('Checkout')}
-      >
-        <Text style={styles.buttonText}>Ir para Checkout</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => signOut()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>First Class</Text>
+      </View>
+
+      <View style={styles.container}>
+        <Text style={styles.header}>Catálogo de Joias</Text>
+
+        <FlatList
+          data={jewelryData}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+        />
+
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 20 }]}
+          onPress={() => navigation.navigate('Checkout')}
+        >
+          <Text style={styles.buttonText}>Ir para Checkout</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000', padding: 16 },
-  header: { fontSize: 24, color: '#FFD700', textAlign: 'center', marginVertical: 16 },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 12,
+    backgroundColor: '#000',
+  },
+  backButton: {
+    paddingRight: 16,
+    paddingVertical: 4,
+  },
+  backButtonText: {
+    fontSize: 28,
+    color: '#FFD700',
+    fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    flex: 1,
+    textAlign: 'center',
+    marginRight: 44,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    backgroundColor: '#000',
+  },
+  header: {
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
   itemContainer: {
     backgroundColor: '#1a1a1a',
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
   },
-  image: { width: '100%', height: 200, borderRadius: 8 },
-  itemName: { color: '#FFD700', fontSize: 18, fontWeight: 'bold', marginTop: 8 },
-  itemPrice: { color: '#fff', fontSize: 16, marginVertical: 4 },
-  button: { backgroundColor: '#FFD700', padding: 10, borderRadius: 8, marginTop: 6 },
-  buttonText: { color: '#000', textAlign: 'center', fontWeight: 'bold' },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+  },
+  itemName: {
+    color: '#FFD700',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 8,
+  },
+  itemPrice: {
+    color: '#fff',
+    fontSize: 16,
+    marginVertical: 4,
+  },
+  button: {
+    backgroundColor: '#FFD700',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 6,
+  },
+  buttonText: {
+    color: '#000',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
+
